@@ -1,0 +1,1181 @@
+{UTF-8}
+Majority Population= INTEG (
+	majority growth,
+		initial population from majority)
+	~	people
+	~		|
+
+Majority Managers= INTEG (
+	majority manager applicant hiring+majority promoting-majority managers retiring,
+		initial managers from the mmjority)
+	~	people
+	~		|
+
+Majority Workers= INTEG (
+	majority worker applicant hiring-majority promoting-majority workers retiring,
+		initial workers from the majority)
+	~	people
+	~		|
+
+Minority Workers= INTEG (
+	minority worker applicants hiring-minority promoting-minority workers retiring,
+		initial workers from the minority)
+	~	people
+	~		|
+
+Minority Population= INTEG (
+	minority growth,
+		initial population from minority)
+	~	people
+	~		|
+
+Minority Managers= INTEG (
+	minority manager applicants hiring+minority promoting-minority managers retiring,
+		initial managers from the minority)
+	~	people
+	~		|
+
+fraction of population from majority=
+	Majority Population/(Majority Population+Minority Population)
+	~	
+	~		|
+
+initial majority manager applicants=
+	initial qualified majority interested*(1/(1+WORKERS PER MANAGER))-Majority Managers
+	~	people
+	~		|
+
+initial majority worker applicants=
+	initial qualified majority interested*(WORKERS PER MANAGER/(1+WORKERS PER MANAGER))-\
+		Majority Workers
+	~	people
+	~		|
+
+initial minority worker applicants=
+	initial qualified minority interested*WORKERS PER MANAGER/(1+WORKERS PER MANAGER)-Minority Workers
+	~	people
+	~		|
+
+initial minority manager applicants=
+	initial qualified minority interested*(1/(1+WORKERS PER MANAGER))-Minority Managers
+	~	people
+	~		|
+
+majority promoting=
+	(1-probability of hiring majority manager from outside the organization)*IF THEN ELSE\
+		( management positions open>0 , 1, 0 )*management positions open
+	*probability of promoting majority worker/TIME TO PROMOTE
+	~	people/Month
+	~		|
+
+minority promoting=
+	(1-probability of hiring minority manager from outside the organization)*IF THEN ELSE\
+		(management positions open>0, 1 , 0 )*management positions open
+	*probability of promoting minority worker/TIME TO PROMOTE
+	~	people/Month
+	~		|
+
+probability of hiring minority manager from outside the organization=
+	Minority Manager Applicants/(Minority Manager Applicants+Minority Workers)
+	~	Dmnl
+	~		|
+
+interest effect=
+	EFFECT OF REPRESENTATIVENESS(overall representativeness)
+	~	Dmnl
+	~		|
+
+minority management applications=
+	Minority Workers+Minority Manager Applicants
+	~	people
+	~		|
+
+probability of promoting minority worker=
+	(1-BIAS TOWARDS PROMOTING MAJORITY WORKER)*fraction of minority management applicants\
+		/((1-BIAS TOWARDS PROMOTING MAJORITY WORKER)*fraction of minority management applicants
+	+BIAS TOWARDS PROMOTING MAJORITY WORKER*(1-fraction of minority management applicants\
+		))
+	~	fraction
+	~		|
+
+probability of hiring majority manager from outside the organization=
+	Majority Manager Applicants/(Majority Manager Applicants+Majority Workers)
+	~	Dmnl
+	~		|
+
+fraction of minority management applicants=
+	minority management applications/(minority management applications+majority management applications\
+		)
+	~	fraction
+	~		|
+
+minority manager applicants hiring=
+	minority promoting*probability of hiring minority manager from outside the organization\
+		/(1-probability of hiring minority manager from outside the organization)
+	~	people/Month
+	~		|
+
+majority manager applicant hiring=
+	majority promoting*probability of hiring majority manager from outside the organization\
+		/(1-probability of hiring majority manager from outside the organization)
+	~	people/Month
+	~		|
+
+new majority manager applicants=
+	growth in majority applicants*(1/(1+WORKERS PER MANAGER))
+	~	people/Month
+	~		|
+
+majority management applications=
+	Majority Manager Applicants+Majority Workers
+	~	people
+	~		|
+
+fraction of qualified minority population interested in the organization=
+	(MAXIMUM MINORITY INTEREST-MINIMUM MINORITY INTEREST)*EFFECT OF REPRESENTATIVENESS(overall representativeness\
+		)+MINIMUM MINORITY INTEREST
+	~	fraction
+	~		|
+
+Minority Manager Applicants= INTEG (
+	new minority manager applicants-minority manager applicants hiring-minority manager applicants rejected\
+		,
+		initial minority manager applicants)
+	~	people
+	~		|
+
+new minority manager applicants=
+	growth in minority applicants*(1/(1+WORKERS PER MANAGER))
+	~	people/Month
+	~		|
+
+minority manager career length=
+	MONTHS PER YEAR*((MAXIMUM MINORITY MANAGER CAREER LENGTH-MINIMUM MINORITY MANAGER CAREER LENGTH\
+		)*EFFECT OF REPRESENTATIVENESS
+	(manager representativieness)
+	+MINIMUM MINORITY MANAGER CAREER LENGTH)
+	~	Month
+	~		|
+
+initial qualified minority interested=
+	initial population from minority*FRACTION OF MINORITY WITH NECESSARY QUALIFICATIONS*
+	((MAXIMUM MINORITY INTEREST-MINIMUM MINORITY INTEREST)*EFFECT OF REPRESENTATIVENESS(\
+		overall representativeness)+MINIMUM MINORITY INTEREST
+	)
+	~	people
+	~		|
+
+Majority Worker Applicants= INTEG (
+	new majority worker applicants-majority worker applicants rejected-majority worker applicant hiring\
+		,
+		initial majority worker applicants)
+	~	people
+	~		|
+
+new majority worker applicants=
+	growth in majority applicants*WORKERS PER MANAGER/(1+WORKERS PER MANAGER)
+	~	people/Month
+	~		|
+
+new minority worker applicants=
+	growth in minority applicants*WORKERS PER MANAGER/(1+WORKERS PER MANAGER)
+	~	people/Month
+	~		|
+
+minority manager applicants rejected=
+	Minority Manager Applicants/TIME TO PROMOTE
+	~	people/Month
+	~		|
+
+majority managers retiring=
+	Majority Managers/(MAJORITY MANAGER CAREER LENGTH*MONTHS PER YEAR)
+	~	people/Month
+	~		|
+
+majority manager applicants rejected=
+	Majority Manager Applicants/TIME TO PROMOTE
+	~	people/Month
+	~		|
+
+Minority Worker Applicants= INTEG (
+	new minority worker applicants-minority worker applicants hiring-minority worker applicants rejected\
+		,
+		initial minority worker applicants)
+	~	people
+	~		|
+
+Majority Manager Applicants= INTEG (
+	new majority manager applicants-majority manager applicants rejected-majority manager applicant hiring\
+		,
+		initial majority manager applicants)
+	~	people
+	~		|
+
+MAXIMUM MINORITY MANAGER CAREER LENGTH=
+	12.4
+	~	Year
+	~		|
+
+MAXIMUM MINORITY WORKER CAREER LENGTH=
+	8.2
+	~	Year
+	~		|
+
+LONG TERM EMPLOYEES=
+	2500
+	~	people
+	~		|
+
+MAJORITY WORKER CAREER LENGTH=
+	4.1
+	~	Year
+	~		|
+
+minority worker career length=
+	MONTHS PER YEAR*((MAXIMUM MINORITY WORKER CAREER LENGTH-MINIMUM MINORITY WORKER CAREER LENGTH\
+		)*EFFECT OF REPRESENTATIVENESS
+	(worker representativeness)+MINIMUM MINORITY WORKER CAREER LENGTH)
+	~	Month
+	~		|
+
+majority workers retiring=
+	Majority Workers/(MAJORITY WORKER CAREER LENGTH*MONTHS PER YEAR)
+	~	people/Month
+	~		|
+
+majority growth=
+	Majority Population*MAJORITY GROWTH RATE/MONTHS PER YEAR
+	~	people/Month
+	~		|
+
+MONTHS PER YEAR=
+	12
+	~	Month/Year
+	~		|
+
+MINIMUM MINORITY MANAGER CAREER LENGTH=
+	0
+	~	Year
+	~		|
+
+MAJORITY MANAGER CAREER LENGTH=
+	6.2
+	~	Year
+	~		|
+
+minority growth=
+	Minority Population*(MINORITY GROWTH RATE/MONTHS PER YEAR)
+	~	people/Month
+	~		|
+
+MINIMUM MINORITY WORKER CAREER LENGTH=
+	0
+	~	Year
+	~		|
+
+MAJORITY GROWTH RATE=
+	0.0097
+	~	1/Year
+	~		|
+
+MINORITY GROWTH RATE=
+	0.0114
+	~	1/Year
+	~		|
+
+workers added per year=
+	(long term workers-Worker Positions)/TIME TO CHANGE WORKER POSITIONS
+	~	people/Month
+	~		|
+
+change in manager positions=
+	managers added per month
+	~	people/Month
+	~		|
+
+minority worker applicants rejected=
+	Minority Worker Applicants/TIME TO HIRE
+	~	people/Month
+	~		|
+
+managers added per month=
+	(long term managers-Manager Positions)/TIME TO CHANGE MANAGER POSITIONS
+	~	people/Month
+	~		|
+
+change in worker positions=
+	workers added per year
+	~	people/Month
+	~		|
+
+TIME TO CHANGE MANAGER POSITIONS=
+	1.2
+	~	Month
+	~		|
+
+TIME TO CHANGE WORKER POSITIONS=
+	1.2
+	~	Month
+	~		|
+
+majority worker applicants rejected=
+	Majority Worker Applicants/TIME TO HIRE
+	~	people/Month
+	~		|
+
+minority worker applicants hiring=
+	IF THEN ELSE(worker positions open>0 , 1 , 0 )*probability of hiring minority worker\
+		*worker positions open/TIME TO HIRE
+	~	people/Month
+	~		|
+
+initial managers from the mmjority=
+	initial number of managers*(1-INITIAL FRACTION OF MANAGERS FROM MINORITY)
+	~	people
+	~		|
+
+initial managers from the minority=
+	initial number of managers*INITIAL FRACTION OF MANAGERS FROM MINORITY
+	~	people
+	~		|
+
+minority workers retiring=
+	Minority Workers/minority worker career length
+	~	people/Month
+	~		|
+
+initial workers from the minority=
+	initial number of workers*INITIAL FRACTION OF WORKERS FROM MINORITY
+	~	people
+	~		|
+
+majority worker applicant hiring=
+	IF THEN ELSE(worker positions open>0, 1 , 0 )*probability of hiring majority worker*\
+		worker positions open/TIME TO HIRE
+	~	people/Month
+	~		|
+
+initial workers from the majority=
+	initial number of workers*(1-INITIAL FRACTION OF WORKERS FROM MINORITY)
+	~	people
+	~		|
+
+TIME TO PROMOTE=
+	1.2
+	~	Month
+	~		|
+
+FRACTION OF MAJORITY WITH NECESSARY QUALIFICATIONS=
+	0.39
+	~	fraction
+	~		|
+
+effect=
+	EFFECT OF REPRESENTATIVENESS(worker representativeness)
+	~	Dmnl
+	~		|
+
+growth in majority applicants=
+	majority growth*FRACTION OF MAJORITY POPULATION INTERESTED*FRACTION OF MAJORITY WITH NECESSARY QUALIFICATIONS
+	~	people/Month
+	~		|
+
+initial qualified majority interested=
+	initial population from majority*FRACTION OF MAJORITY WITH NECESSARY QUALIFICATIONS*\
+		FRACTION OF MAJORITY POPULATION INTERESTED
+	~	people
+	~		|
+
+MINIMUM MINORITY INTEREST=
+	0
+	~	fraction
+	~		|
+
+MAXIMUM MINORITY INTEREST=
+	1
+	~	fraction
+	~		|
+
+probability of hiring minority worker=
+	(1-BIAS TOWARDS HIRING MAJORITY WORKER)*fraction of minority applicants/((1-BIAS TOWARDS HIRING MAJORITY WORKER
+	)*fraction of minority applicants+BIAS TOWARDS HIRING MAJORITY WORKER*(1-fraction of minority applicants\
+		))
+	~	fraction
+	~		|
+
+growth in minority applicants=
+	minority growth*FRACTION OF MINORITY WITH NECESSARY QUALIFICATIONS*fraction of qualified minority population interested in the organization
+	~	people/Month
+	~		|
+
+manager representativieness=
+	fraction of minority managers/fraction of population from minority
+	~	Dmnl
+	~		|
+
+long term workers=
+	LONG TERM EMPLOYEES*WORKERS PER MANAGER/(1+WORKERS PER MANAGER)
+	~	people
+	~		|
+
+long term managers=
+	LONG TERM EMPLOYEES*(1/(1+WORKERS PER MANAGER))
+	~	people
+	~		|
+
+INITIAL TOTAL EMPLOYEES=
+	5000
+	~	people
+	~		|
+
+fraction of minority workers=
+	Minority Workers/(Minority Workers+Majority Workers)
+	~	Dmnl
+	~		|
+
+worker representativeness=
+	fraction of minority workers/fraction of population from minority
+	~	fraction
+	~		|
+
+fraction of minority managers=
+	Minority Managers/(Minority Managers+Majority Managers)
+	~	Dmnl
+	~		|
+
+WORKERS PER MANAGER=
+	9
+	~	Dmnl
+	~		|
+
+INITIAL FRACTION OF MANAGERS FROM MINORITY=
+	0.1
+	~	fraction
+	~		|
+
+INITIAL FRACTION OF WORKERS FROM MINORITY=
+	0.1
+	~	fraction
+	~		|
+
+initial number of workers=
+	INITIAL TOTAL EMPLOYEES*WORKERS PER MANAGER/(1+WORKERS PER MANAGER)
+	~	people
+	~		|
+
+initial number of managers=
+	INITIAL TOTAL EMPLOYEES*(1/(1+WORKERS PER MANAGER))
+	~	people
+	~		|
+
+EFFECT OF REPRESENTATIVENESS(
+	[(0,0)-(10,1)],(0,0.0228),(0.1,0.0548),(0.2,0.1151),(0.3,0.2119),(0.4,0.3446),(0.5,0.5\
+		),(0.6,0.6554),(0.7,0.7881),(0.8,0.8849),(0.9,0.9452),(1,0.9772),(10,0.9772))
+	~	Dmnl
+	~		|
+
+minority managers retiring=
+	Minority Managers/minority manager career length
+	~	people/Month
+	~		|
+
+fraction of minority applicants=
+	Minority Worker Applicants/(Majority Worker Applicants+Minority Worker Applicants)
+	~	fraction
+	~		|
+
+Total Employees=
+	Majority Managers+Majority Workers+Minority Managers+Minority Workers
+	~	people
+	~		|
+
+fraction of organization minority=
+	(Minority Managers+Minority Workers)/Total Employees
+	~	fraction
+	~		|
+
+management positions filled=
+	Minority Managers+Majority Managers
+	~	people
+	~		|
+
+worker positions filled=
+	Majority Workers+Minority Workers
+	~	people
+	~		|
+
+FRACTION OF MINORITY WITH NECESSARY QUALIFICATIONS=
+	0.18
+	~	fraction
+	~		|
+
+BIAS TOWARDS PROMOTING MAJORITY WORKER=
+	0.5
+	~	fraction
+	~		|
+
+BIAS TOWARDS HIRING MAJORITY WORKER=
+	0.5
+	~	fraction
+	~		|
+
+FRACTION OF MAJORITY POPULATION INTERESTED=
+	0.1
+	~	fraction
+	~		|
+
+probability of promoting majority worker=
+	1-probability of promoting minority worker
+	~	fraction
+	~		|
+
+overall representativeness=
+	fraction of organization minority/fraction of population from minority
+	~	fraction
+	~		|
+
+fraction of population from minority=
+	Minority Population/(Minority Population+Majority Population)
+	~	fraction
+	~		|
+
+initial population from minority=
+	INITIAL POPULATION*INITIAL FRACTION OF POPULATION FROM THE MINORITY
+	~	people
+	~		|
+
+Manager Positions= INTEG (
+	change in manager positions,
+		initial number of managers)
+	~	people
+	~		|
+
+INITIAL POPULATION=
+	2.07e+008
+	~	people
+	~		|
+
+initial population from majority=
+	INITIAL POPULATION*(1-INITIAL FRACTION OF POPULATION FROM THE MINORITY)
+	~	people
+	~		|
+
+INITIAL FRACTION OF POPULATION FROM THE MINORITY=
+	0.3163
+	~	fraction
+	~		|
+
+Worker Positions= INTEG (
+	change in worker positions,
+		initial number of workers)
+	~	people
+	~		|
+
+management positions open=
+	Manager Positions-management positions filled
+	~	people
+	~		|
+
+probability of hiring majority worker=
+	1-probability of hiring minority worker
+	~	fraction
+	~		|
+
+TIME TO HIRE=
+	1.2
+	~	Month
+	~		|
+
+worker positions open=
+	Worker Positions-worker positions filled
+	~	people
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 2035
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 2017
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.125
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Initial Values
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,INITIAL POPULATION,307,104,53,19,8,3,0,0,0,0,0,0
+10,2,INITIAL FRACTION OF POPULATION FROM THE MINORITY,311,188,95,28,8,3,0,0,0,0,0,0
+10,3,initial population from minority,132,282,52,19,8,3,0,0,0,0,0,0
+10,4,initial population from majority,484,291,52,19,8,3,0,0,0,0,0,0
+1,5,2,3,1,0,0,0,0,64,0,-1--1--1,,1|(227,206)|
+1,6,1,3,1,0,0,0,0,64,0,-1--1--1,,1|(244,121)|
+1,7,2,4,1,0,0,0,0,64,0,-1--1--1,,1|(346,186)|
+1,8,1,4,1,0,0,0,0,64,0,-1--1--1,,1|(411,125)|
+10,9,initial managers from the minority,1065,403,87,28,8,131,0,0,0,0,0,0
+10,10,initial managers from the mmjority,1291,391,87,26,8,131,0,0,0,0,0,0
+10,11,initial workers from the majority,822,399,84,27,8,131,0,0,0,0,0,0
+10,12,initial workers from the minority,639,398,84,30,8,131,0,0,0,0,0,0
+10,13,initial number of managers,1154,187,50,19,8,3,0,0,0,0,0,0
+10,14,initial number of workers,731,217,50,19,8,3,0,0,0,0,0,0
+10,15,INITIAL TOTAL EMPLOYEES,914,30,58,19,8,3,0,0,0,0,0,0
+10,16,WORKERS PER MANAGER,888,137,46,28,8,3,0,0,0,0,0,0
+10,17,INITIAL FRACTION OF WORKERS FROM MINORITY,757,297,100,28,8,3,0,0,0,0,0,0
+10,18,INITIAL FRACTION OF MANAGERS FROM MINORITY,1159,294,100,28,8,3,0,0,0,0,0,0
+1,19,15,14,1,0,0,0,0,64,0,-1--1--1,,1|(797,71)|
+1,20,16,14,1,0,0,0,0,64,0,-1--1--1,,1|(800,157)|
+1,21,16,13,1,0,0,0,0,64,0,-1--1--1,,1|(1029,118)|
+1,22,15,13,1,0,0,0,0,64,0,-1--1--1,,1|(1054,51)|
+1,23,14,12,1,0,0,0,0,64,0,-1--1--1,,1|(651,261)|
+1,24,17,12,1,0,0,0,0,64,0,-1--1--1,,1|(712,323)|
+1,25,17,11,1,0,0,0,0,64,0,-1--1--1,,1|(803,334)|
+1,26,14,11,1,0,0,0,0,64,0,-1--1--1,,1|(844,257)|
+1,27,18,9,1,0,0,0,0,64,0,-1--1--1,,1|(1092,319)|
+1,28,18,10,1,0,0,0,0,64,0,-1--1--1,,1|(1242,323)|
+1,29,13,9,1,0,0,0,0,64,0,-1--1--1,,1|(1064,243)|
+1,30,13,10,1,0,0,0,0,64,0,-1--1--1,,1|(1260,250)|
+10,31,LONG TERM EMPLOYEES,944,524,48,19,8,3,0,0,0,0,0,0
+10,32,long term workers,770,606,58,11,8,3,0,0,0,0,0,0
+10,33,long term managers,1180,596,31,19,8,3,0,0,0,0,0,0
+1,34,31,32,1,0,0,0,0,64,0,-1--1--1,,1|(849,540)|
+1,35,31,33,1,0,0,0,0,64,0,-1--1--1,,1|(1041,528)|
+1,36,16,32,1,0,0,0,0,64,0,-1--1--1,,1|(549,337)|
+1,37,16,33,1,0,0,0,0,64,0,-1--1--1,,1|(1404,311)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Populations
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,fraction of qualified minority population interested in the organization,409,588,128,28,8,131,0,0,0,0,0,0
+10,2,Majority Population,1817,284,56,38,3,131,0,0,0,0,0,0
+12,3,48,1589,290,10,8,0,3,0,0,-1,0,0,0
+1,4,6,2,4,0,0,22,0,0,0,-1--1--1,,1|(1723,290)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(1636,290)|
+11,6,48,1680,290,6,8,34,3,0,0,1,0,0,0
+10,7,majority growth,1680,317,67,19,40,3,0,0,-1,0,0,0
+10,8,Minority Population,464,215,52,36,3,131,0,0,0,0,0,0
+12,9,48,255,220,10,8,0,3,0,0,-1,0,0,0
+1,10,12,8,4,0,0,22,0,0,0,-1--1--1,,1|(377,225)|
+1,11,12,9,100,0,0,22,0,0,0,-1--1--1,,1|(297,225)|
+11,12,48,335,225,6,8,34,3,0,0,1,0,0,0
+10,13,minority growth,335,252,67,19,40,3,0,0,-1,0,0,0
+1,14,2,7,1,0,0,0,0,64,0,-1--1--1,,1|(1769,341)|
+1,15,8,13,1,0,0,0,0,64,0,-1--1--1,,1|(422,270)|
+10,16,MAJORITY GROWTH RATE,1500,265,70,28,8,3,0,0,0,0,0,0
+1,17,16,7,1,0,0,0,0,64,0,-1--1--1,,1|(1515,313)|
+10,18,initial population from minority,741,162,56,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,19,initial population from majority,2011,375,56,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,20,Time,314,978,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,21,FRACTION OF MINORITY WITH NECESSARY QUALIFICATIONS,118,569,98,38,8,131,0,0,0,0,0,0
+10,22,FRACTION OF MAJORITY POPULATION INTERESTED,1926,584,103,28,8,131,0,0,0,0,0,0
+10,23,Time,1257,52,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,24,growth in majority applicants,1872,444,62,19,8,3,0,0,0,0,0,0
+1,25,7,24,1,0,0,0,0,64,0,-1--1--1,,1|(1683,359)|
+10,26,growth in minority applicants,419,417,62,19,8,3,0,0,0,0,0,0
+1,27,13,26,1,0,0,0,0,64,0,-1--1--1,,1|(341,340)|
+1,28,1,26,1,0,0,0,0,64,0,-1--1--1,,1|(426,535)|
+10,29,initial managers from the mmjority,2179,248,89,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,30,initial workers from the majority,2306,304,89,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,31,initial managers from the minority,849,219,89,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,32,initial workers from the minority,939,316,89,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,33,FRACTION OF MINORITY WITH NECESSARY QUALIFICATIONS,888,407,103,38,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,34,worker representativeness,1062,566,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,35,initial qualified majority interested,2071,462,59,19,8,3,0,0,0,0,0,0
+1,36,19,35,1,0,0,0,0,64,0,-1--1--1,,1|(2045,416)|
+1,37,22,35,1,0,0,0,0,64,0,-1--1--1,,1|(2008,526)|
+10,38,initial qualified minority interested,566,333,58,19,8,3,0,0,0,0,0,0
+1,39,18,38,1,0,0,0,0,64,0,-1--1--1,,1|(678,244)|
+1,40,33,38,1,0,0,0,0,64,0,-1--1--1,,1|(746,332)|
+1,41,21,26,1,0,0,0,0,64,0,-1--1--1,,1|(297,518)|
+1,42,22,24,1,0,0,0,0,64,0,-1--1--1,,1|(1891,521)|
+10,43,MAXIMUM MINORITY INTEREST,662,627,91,19,8,3,0,0,0,0,0,0
+10,44,MINIMUM MINORITY INTEREST,766,712,91,19,8,3,0,0,0,0,0,0
+1,45,43,38,1,0,0,0,0,64,0,-1--1--1,,1|(676,481)|
+1,46,44,38,1,0,0,0,0,64,0,-1--1--1,,1|(779,595)|
+1,47,44,1,1,0,0,0,0,64,0,-1--1--1,,1|(544,712)|
+1,48,43,1,1,0,0,0,0,64,0,-1--1--1,,1|(554,631)|
+10,49,EFFECT OF REPRESENTATIVENESS,609,541,94,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,50,49,38,1,0,0,0,0,64,0,-1--1--1,,1|(574,415)|
+1,51,49,1,1,0,0,0,0,64,0,-1--1--1,,1|(546,615)|
+10,52,FRACTION OF MAJORITY WITH NECESSARY QUALIFICATIONS,1591,560,98,38,8,3,0,0,0,0,0,0
+1,53,52,24,1,0,0,0,0,64,0,-1--1--1,,1|(1690,488)|
+1,54,52,35,1,0,0,0,0,64,0,-1--1--1,,1|(1937,646)|
+10,55,MINORITY GROWTH RATE,170,164,67,28,8,3,0,0,0,0,0,0
+1,56,55,13,1,0,0,0,0,64,0,-1--1--1,,1|(238,167)|
+10,57,MONTHS PER YEAR,272,88,53,19,8,3,0,0,0,0,0,0
+1,58,57,13,1,0,0,0,0,64,0,-1--1--1,,1|(322,149)|
+10,59,MONTHS PER YEAR,1651,145,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,60,59,7,1,0,0,0,0,64,0,-1--1--1,,1|(1692,206)|
+10,61,overall representativeness,515,464,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,62,61,38,1,0,0,0,0,64,0,-1--1--1,,1|(506,408)|
+1,63,61,1,1,0,0,0,0,64,0,-1--1--1,,1|(478,532)|
+10,64,interest effect,690,478,42,11,8,3,0,0,0,0,0,0
+1,65,61,64,1,0,0,0,0,64,0,-1--1--1,,1|(599,446)|
+1,66,49,64,1,0,0,0,0,64,0,-1--1--1,,1|(682,526)|
+10,67,fraction of population from majority,1183,170,68,19,8,3,0,0,0,0,0,0
+1,68,8,67,1,0,0,0,0,64,0,-1--1--1,,1|(851,140)|
+1,69,2,67,1,0,0,0,0,64,0,-1--1--1,,1|(1601,182)|
+1,70,18,8,0,0,0,0,0,64,1,-1--1--1,,1|(608,187)|
+1,71,19,2,0,0,0,0,0,64,1,-1--1--1,,1|(1928,335)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Positions
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Worker Positions,511,399,51,33,3,131,0,0,0,0,0,0
+10,2,Manager Positions,1327,394,53,31,3,131,0,0,0,0,0,0
+12,3,48,275,401,10,8,0,3,0,0,-1,0,0,0
+1,4,6,1,4,0,0,22,0,0,0,-1--1--1,,1|(419,401)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(325,401)|
+11,6,48,372,401,6,8,34,3,0,0,1,0,0,0
+10,7,change in worker positions,372,428,55,19,40,3,0,0,-1,0,0,0
+12,8,48,1104,394,10,8,0,3,0,0,-1,0,0,0
+1,9,11,2,4,0,0,22,0,0,0,-1--1--1,,1|(1237,394)|
+1,10,11,8,100,0,0,22,0,0,0,-1--1--1,,1|(1151,394)|
+11,11,48,1194,394,6,8,34,3,0,0,1,0,0,0
+10,12,change in manager positions,1194,421,59,19,40,3,0,0,-1,0,0,0
+10,13,worker positions open,707,394,54,19,8,3,0,0,0,0,0,0
+10,14,management positions open,1541,396,46,19,8,3,0,0,0,0,0,0
+1,15,1,13,1,0,0,0,0,64,0,-1--1--1,,1|(601,440)|
+1,16,2,14,1,0,0,0,0,64,0,-1--1--1,,1|(1382,436)|
+10,17,worker positions filled,619,530,54,19,8,3,0,0,0,0,0,0
+1,18,17,13,1,0,0,0,0,64,0,-1--1--1,,1|(682,497)|
+10,19,management positions filled,1502,559,45,19,8,3,0,0,0,0,0,0
+1,20,19,14,1,0,0,0,0,64,0,-1--1--1,,1|(1541,528)|
+10,21,initial number of workers,616,313,55,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,22,initial number of managers,1373,294,55,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,23,21,1,1,0,0,0,0,64,1,-1--1--1,,1|(592,344)|
+1,24,22,2,1,0,0,0,0,64,1,-1--1--1,,1|(1353,331)|
+10,25,Time,749,48,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,26,workers added per year,347,316,49,19,8,3,0,0,0,0,0,0
+1,27,26,7,1,0,0,0,0,64,0,-1--1--1,,1|(322,351)|
+10,28,Time,784,108,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,29,managers added per month,1142,282,53,19,8,3,0,0,0,0,0,0
+1,30,29,12,1,0,0,0,0,64,0,-1--1--1,,1|(1138,319)|
+10,31,Majority Workers,729,644,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,32,31,17,1,0,0,0,0,64,0,-1--1--1,,1|(690,574)|
+10,33,Majority Managers,1620,663,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,34,33,19,1,0,0,0,0,64,0,-1--1--1,,1|(1575,595)|
+10,35,Minority Workers,475,657,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,36,35,17,1,0,0,0,0,64,0,-1--1--1,,1|(521,569)|
+10,37,Minority Managers,1351,678,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,38,37,19,1,0,0,0,0,64,0,-1--1--1,,1|(1394,594)|
+10,39,long term workers,291,187,35,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,40,long term managers,1088,168,35,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,41,1,26,1,0,0,0,0,64,0,-1--1--1,,1|(471,324)|
+1,42,2,29,1,0,0,0,0,64,0,-1--1--1,,1|(1290,313)|
+1,43,39,26,1,0,0,0,0,64,0,-1--1--1,,1|(339,222)|
+1,44,40,29,1,0,0,0,0,64,0,-1--1--1,,1|(1124,207)|
+10,45,TIME TO CHANGE WORKER POSITIONS,121,296,81,19,8,3,0,0,0,0,0,0
+10,46,TIME TO CHANGE MANAGER POSITIONS,924,280,86,19,8,3,0,0,0,0,0,0
+1,47,45,26,1,0,0,0,0,64,0,-1--1--1,,1|(204,328)|
+1,48,46,29,1,0,0,0,0,64,0,-1--1--1,,1|(993,342)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Bias in Hiring
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,5,0
+10,1,probability of hiring minority worker,808,240,61,19,8,3,0,0,0,0,0,0
+10,2,probability of hiring majority worker,987,168,61,19,8,3,0,0,0,0,0,0
+1,3,1,2,1,0,0,0,0,64,0,-1--1--1,,1|(883,256)|
+10,4,fraction of minority applicants,650,371,68,19,8,3,0,0,0,0,0,0
+1,5,4,1,1,0,0,0,0,64,0,-1--1--1,,1|(711,358)|
+10,6,BIAS TOWARDS HIRING MAJORITY WORKER,500,147,72,28,8,131,0,0,0,0,0,0
+10,7,Time,621,71,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,8,Time,1245,542,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,9,Time,1250,620,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,10,Majority Worker Applicants,329,328,66,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,11,Minority Worker Applicants,341,462,66,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,12,10,4,1,0,0,0,0,64,0,-1--1--1,,1|(476,272)|
+1,13,11,4,1,0,0,0,0,64,0,-1--1--1,,1|(454,500)|
+1,14,6,1,1,0,0,0,0,64,0,-1--1--1,,1|(600,152)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Bias in Promoting
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,5,0
+10,1,probability of promoting majority worker,628,152,77,19,8,131,0,0,0,0,0,0
+10,2,probability of promoting minority worker,394,256,77,19,8,3,0,0,0,0,0,0
+1,3,2,1,1,0,0,0,0,64,0,-1--1--1,,1|(469,260)|
+10,4,BIAS TOWARDS PROMOTING MAJORITY WORKER,209,153,79,28,8,131,0,0,0,0,0,0
+10,5,Time,1246,62,26,11,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,6,Time,1415,635,42,22,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,7,Time,1441,543,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,8,Time,1152,218,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,9,Time,1173,167,26,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,10,Majority Workers,167,528,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,11,Minority Workers,342,567,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,12,4,2,1,0,0,0,0,64,0,-1--1--1,,1|(278,182)|
+10,13,fraction of minority workers,1207,577,65,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,14,Minority Manager Applicants,544,559,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,15,Majority Manager Applicants,71,440,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,16,majority management applications,255,388,68,19,8,3,0,0,0,0,0,0
+10,17,minority management applications,452,427,67,19,8,3,0,0,0,0,0,0
+10,18,fraction of minority management applicants,401,328,73,19,8,3,0,0,0,0,0,0
+1,19,15,16,1,0,0,0,0,64,0,-1--1--1,,1|(108,406)|
+1,20,10,16,1,0,0,0,0,64,0,-1--1--1,,1|(247,482)|
+1,21,11,17,1,0,0,0,0,64,0,-1--1--1,,1|(339,512)|
+1,22,14,17,1,0,0,0,0,64,0,-1--1--1,,1|(554,508)|
+1,23,16,18,1,0,0,0,0,64,0,-1--1--1,,1|(276,348)|
+1,24,17,18,1,0,0,0,0,64,0,-1--1--1,,1|(471,389)|
+1,25,18,2,1,0,0,0,0,64,0,-1--1--1,,1|(410,297)|
+10,26,probability of hiring majority manager from outside the organization,82,625,89,28,8,3,0,0,0,0,0,0
+10,27,probability of hiring minority manager from outside the organization,429,644,89,28,8,3,0,0,0,0,0,0
+1,28,15,26,1,0,0,0,0,64,0,-1--1--1,,1|(40,489)|
+1,29,10,26,1,0,0,0,0,64,0,-1--1--1,,1|(171,568)|
+1,30,11,27,1,0,0,0,0,64,0,-1--1--1,,1|(343,604)|
+1,31,14,27,1,0,0,0,0,64,0,-1--1--1,,1|(526,617)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Minority Workers and Managers
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,TIME TO HIRE,364,72,61,19,8,131,0,16,0,0,0,0,-1--1--1,0-0-0,|12|B|0-0-0
+10,2,worker positions open,483,173,55,19,8,2,0,19,-1,0,0,0,128-128-128,0-0-0,|12|B|128-128-128
+10,3,probability of hiring minority worker,418,128,73,19,8,2,0,19,-1,0,0,0,128-128-128,0-0-0,|12|B|128-128-128
+10,4,management positions open,857,163,55,19,8,2,0,19,-1,0,0,0,128-128-128,0-0-0,|12|B|128-128-128
+10,5,initial managers from the minority,1228,164,66,19,8,130,0,19,-1,0,0,0,128-128-128,0-0-0,|12|B|128-128-128
+10,6,initial workers from the minority,491,392,98,21,8,130,0,19,-1,0,0,0,128-128-128,0-0-0,|12|B|128-128-128
+10,7,probability of promoting minority worker,822,109,60,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,8,Minority Worker Applicants,251,282,58,34,3,131,0,0,0,0,0,0
+12,9,48,0,274,10,8,0,3,0,0,-1,0,0,0
+1,10,12,8,4,0,0,22,0,0,0,-1--1--1,,1|(141,273)|
+1,11,12,9,100,0,0,22,0,0,0,-1--1--1,,1|(43,273)|
+11,12,48,83,273,6,8,34,3,0,0,1,0,0,0
+10,13,new minority worker applicants,83,305,72,24,40,131,0,0,-1,0,0,0
+10,14,growth in minority applicants,67,407,67,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,15,14,13,1,0,0,0,0,64,0,-1--1--1,,1|(35,347)|
+10,16,Minority Workers,604,283,54,34,3,131,0,0,0,0,0,0
+10,17,Minority Managers,957,279,55,32,3,131,0,0,0,0,0,0
+1,18,20,16,4,0,0,22,0,0,0,-1--1--1,,1|(496,276)|
+1,19,20,8,100,0,0,22,0,0,0,-1--1--1,,1|(369,276)|
+11,20,476,436,276,6,8,34,3,0,0,1,0,0,0
+10,21,minority worker applicants hiring,436,309,62,25,40,131,0,0,-1,0,0,0
+1,22,24,17,4,0,0,22,0,0,0,-1--1--1,,1|(848,269)|
+1,23,24,16,100,0,0,22,0,0,0,-1--1--1,,1|(720,269)|
+11,24,364,789,269,6,8,34,3,0,0,1,0,0,0
+10,25,minority promoting,789,288,59,11,40,3,0,0,-1,0,0,0
+12,26,48,1229,265,10,8,0,3,0,0,-1,0,0,0
+1,27,29,26,4,0,0,22,0,0,0,-1--1--1,,1|(1171,265)|
+1,28,29,17,100,0,0,22,0,0,0,-1--1--1,,1|(1062,265)|
+11,29,48,1118,265,6,8,34,3,0,0,1,0,0,0
+10,30,minority managers retiring,1118,292,58,19,40,3,0,0,-1,0,0,0
+12,31,48,624,509,10,8,0,3,0,0,-1,0,0,0
+1,32,34,31,4,0,0,22,0,0,0,-1--1--1,,1|(625,454)|
+1,33,34,16,100,0,0,22,0,0,0,-1--1--1,,1|(625,356)|
+11,34,48,625,402,8,6,33,3,0,0,4,0,0,0
+10,35,minority workers retiring,687,402,54,19,40,3,0,0,-1,0,0,0
+1,36,17,30,1,0,0,0,0,64,0,-1--1--1,,1|(993,338)|
+1,37,2,21,1,0,0,0,0,64,0,-1--1--1,,1|(431,202)|
+1,38,3,21,1,0,0,0,0,64,0,-1--1--1,,1|(383,221)|
+1,39,1,21,1,0,0,0,0,64,0,-1--1--1,,1|(300,156)|
+10,40,minority worker career length,725,509,51,19,8,3,0,0,0,0,0,0
+10,41,minority manager career length,1252,340,55,19,8,3,0,0,0,0,0,0
+10,42,EFFECT OF REPRESENTATIVENESS,868,683,94,34,8,131,0,0,0,0,0,0
+1,43,42,40,1,0,0,0,0,64,0,-1--1--1,,1|(827,581)|
+1,44,40,35,1,0,0,0,0,64,0,-1--1--1,,1|(736,463)|
+1,45,41,30,1,0,0,0,0,64,0,-1--1--1,,1|(1196,302)|
+10,46,worker representativeness,635,719,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,47,46,40,1,0,0,0,0,64,0,-1--1--1,,1|(746,673)|
+10,48,manager representativieness,1397,242,65,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,49,48,41,1,0,0,0,0,64,0,-1--1--1,,1|(1315,264)|
+10,50,effect,786,751,19,11,8,3,0,0,0,0,0,0
+1,51,46,50,1,0,0,0,0,64,0,-1--1--1,,1|(682,741)|
+1,52,42,50,1,0,0,0,0,64,0,-1--1--1,,1|(847,714)|
+12,53,48,246,534,10,8,0,3,0,0,-1,0,0,0
+1,54,56,53,4,0,0,22,0,0,0,-1--1--1,,1|(243,467)|
+1,55,56,8,100,0,0,22,0,0,0,-1--1--1,,1|(243,356)|
+11,56,48,243,403,8,6,33,3,0,0,4,0,0,0
+10,57,minority worker applicants rejected,313,403,62,25,40,131,0,0,-1,0,0,0
+1,58,8,57,1,0,0,0,0,64,0,-1--1--1,,1|(307,328)|
+1,59,16,35,1,0,0,0,0,64,0,-1--1--1,,1|(653,339)|
+1,60,4,25,1,0,0,0,0,64,0,-1--1--1,,1|(818,219)|
+1,61,7,25,1,0,0,0,0,64,0,-1--1--1,,1|(781,181)|
+10,62,TIME TO PROMOTE,764,54,40,19,8,3,0,0,0,0,0,0
+1,63,62,25,1,0,0,0,0,64,0,-1--1--1,,1|(740,109)|
+10,64,TIME TO HIRE,416,493,38,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,65,64,57,1,0,0,0,0,64,0,-1--1--1,,1|(396,436)|
+10,66,MONTHS PER YEAR,824,442,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,67,66,40,1,0,0,0,0,64,0,-1--1--1,,1|(780,492)|
+10,68,MINIMUM MINORITY WORKER CAREER LENGTH,531,568,83,28,8,3,0,0,0,0,0,0
+10,69,MAXIMUM MINORITY WORKER CAREER LENGTH,545,648,85,28,8,3,0,0,0,0,0,0
+10,70,MINIMUM MINORITY MANAGER CAREER LENGTH,1431,322,83,28,8,3,0,0,0,0,0,0
+10,71,MAXIMUM MINORITY MANAGER CAREER LENGTH,1396,434,85,28,8,3,0,0,0,0,0,0
+1,72,68,40,1,0,0,0,0,64,0,-1--1--1,,1|(675,547)|
+1,73,69,40,1,0,0,0,0,64,0,-1--1--1,,1|(666,624)|
+1,74,71,41,1,0,0,0,0,64,0,-1--1--1,,1|(1276,423)|
+1,75,70,41,1,0,0,0,0,64,0,-1--1--1,,1|(1340,372)|
+10,76,WORKERS PER MANAGER,11,179,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,77,initial minority worker applicants,188,175,57,19,8,3,0,0,0,0,0,0
+1,78,76,13,1,0,0,0,0,64,0,-1--1--1,,1|(10,215)|
+1,79,76,77,1,0,0,0,0,64,0,-1--1--1,,1|(85,151)|
+1,80,77,8,1,0,0,0,0,64,1,-1--1--1,,1|(216,208)|
+10,81,Minority Manager Applicants,981,490,60,29,3,131,0,0,0,0,0,0
+1,82,84,17,4,0,0,22,0,0,0,-1--1--1,,1|(968,347)|
+1,83,84,81,100,0,0,22,0,0,0,-1--1--1,,1|(968,428)|
+11,84,796,968,389,8,6,33,3,0,0,4,0,0,0
+10,85,minority manager applicants hiring,1031,389,55,19,40,3,0,0,-1,0,0,0
+12,86,48,971,676,10,8,0,3,0,0,-1,0,0,0
+1,87,89,81,4,0,0,22,0,0,0,-1--1--1,,1|(971,556)|
+1,88,89,86,100,0,0,22,0,0,0,-1--1--1,,1|(971,636)|
+11,89,48,971,599,8,6,33,3,0,0,4,0,0,0
+10,90,new minority manager applicants,1040,599,61,19,40,3,0,0,-1,0,0,0
+12,91,48,1238,492,10,8,0,3,0,0,-1,0,0,0
+1,92,94,91,4,0,0,22,0,0,0,-1--1--1,,1|(1182,492)|
+1,93,94,81,100,0,0,22,0,0,0,-1--1--1,,1|(1083,492)|
+11,94,48,1131,492,6,8,34,3,0,0,1,0,0,0
+10,95,minority manager applicants rejected,1131,519,60,19,40,3,0,0,-1,0,0,0
+1,96,81,95,1,0,0,0,0,64,0,-1--1--1,,1|(1034,529)|
+1,97,25,85,1,0,0,0,0,64,0,-1--1--1,,1|(883,361)|
+10,98,TIME TO PROMOTE,1243,605,45,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,99,98,95,1,0,0,0,0,64,0,-1--1--1,,1|(1185,575)|
+10,100,initial minority manager applicants,1325,677,61,19,8,3,0,0,0,0,0,0
+10,101,growth in minority applicants,992,742,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,102,WORKERS PER MANAGER,1168,709,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,103,101,90,1,0,0,0,0,64,0,-1--1--1,,1|(1043,695)|
+1,104,102,90,1,0,0,0,0,64,0,-1--1--1,,1|(1158,670)|
+1,105,102,100,1,0,0,0,0,64,0,-1--1--1,,1|(1222,741)|
+1,106,100,81,1,0,0,0,0,64,1,-1--1--1,,1|(1037,568)|
+10,107,EFFECT OF REPRESENTATIVENESS,1136,436,94,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,108,107,41,1,0,0,0,0,64,0,-1--1--1,,1|(1160,388)|
+10,109,MONTHS PER YEAR,1330,514,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,110,109,41,1,0,0,0,0,64,0,-1--1--1,,1|(1246,459)|
+10,111,probability of hiring minority manager from outside the organization,795,371,93,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,112,111,25,1,0,0,0,0,64,0,-1--1--1,,1|(767,331)|
+1,113,111,85,1,0,0,0,0,64,0,-1--1--1,,1|(862,407)|
+10,114,Minority Managers,1412,769,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,115,114,100,1,0,0,0,0,64,0,-1--1--1,,1|(1351,734)|
+10,116,Minority Workers,29,74,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,117,116,77,1,0,0,0,0,64,0,-1--1--1,,1|(98,88)|
+10,118,initial qualified minority interested,190,56,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,119,118,77,1,0,0,0,0,64,0,-1--1--1,,1|(214,105)|
+10,120,initial qualified minority interested,1235,791,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,121,120,100,1,0,0,0,0,64,0,-1--1--1,,1|(1298,764)|
+1,122,6,16,0,0,0,0,0,64,1,-1--1--1,,1|(534,348)|
+1,123,5,17,0,0,0,0,0,64,1,-1--1--1,,1|(1104,216)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Majority Workers and Managers
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,worker positions open,552,169,58,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,2,probability of hiring majority worker,493,104,66,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,3,TIME TO HIRE,432,32,58,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,4,management positions open,967,172,51,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,5,initial workers from the majority,546,413,95,23,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,6,initial managers from the mmjority,1291,187,102,21,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,7,probability of promoting majority worker,937,98,60,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,8,Majority Worker Applicants,305,284,56,37,3,131,0,0,0,0,0,0
+12,9,48,102,282,10,8,0,3,0,0,-1,0,0,0
+1,10,12,8,4,0,0,22,0,0,0,-1--1--1,,1|(217,282)|
+1,11,12,9,100,0,0,22,0,0,0,-1--1--1,,1|(143,282)|
+11,12,48,180,282,6,8,34,3,0,0,1,0,0,0
+10,13,new majority worker applicants,180,318,58,28,40,131,0,0,-1,0,0,0
+10,14,growth in majority applicants,90,429,67,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,15,14,13,1,0,0,0,0,64,0,-1--1--1,,1|(99,335)|
+10,16,Majority Managers,1063,281,55,36,3,131,0,0,0,0,0,0
+12,17,48,1320,274,10,8,0,3,0,0,-1,0,0,0
+1,18,20,17,4,0,0,22,0,0,0,-1--1--1,,1|(1265,274)|
+1,19,20,16,100,0,0,22,0,0,0,-1--1--1,,1|(1163,274)|
+11,20,48,1214,274,6,8,34,3,0,0,1,0,0,0
+10,21,majority managers retiring,1214,301,58,19,40,3,0,0,-1,0,0,0
+1,22,16,21,1,0,0,0,0,64,0,-1--1--1,,1|(1077,328)|
+10,23,Majority Workers,677,296,53,41,3,131,0,0,0,0,0,0
+1,24,26,23,4,0,0,22,0,0,0,-1--1--1,,1|(561,288)|
+1,25,26,8,100,0,0,22,0,0,0,-1--1--1,,1|(423,288)|
+11,26,284,492,288,6,8,34,3,0,0,1,0,0,0
+10,27,majority worker applicant hiring,492,317,61,21,40,131,0,0,-1,0,0,0
+1,28,30,16,4,0,0,22,0,0,0,-1--1--1,,1|(941,286)|
+1,29,30,23,100,0,0,22,0,0,0,-1--1--1,,1|(796,286)|
+11,30,300,869,286,6,8,34,3,0,0,1,0,0,0
+10,31,majority promoting,869,305,59,11,40,3,0,0,-1,0,0,0
+12,32,48,680,529,10,8,0,3,0,0,-1,0,0,0
+1,33,35,32,4,0,0,22,0,0,0,-1--1--1,,1|(680,478)|
+1,34,35,23,100,0,0,22,0,0,0,-1--1--1,,1|(680,380)|
+11,35,48,680,429,8,6,33,3,0,0,4,0,0,0
+10,36,majority workers retiring,743,429,55,19,40,3,0,0,-1,0,0,0
+1,37,3,27,1,0,0,0,0,64,0,-1--1--1,,1|(378,140)|
+1,38,2,27,1,0,0,0,0,64,0,-1--1--1,,1|(454,224)|
+1,39,23,36,1,0,0,0,0,64,0,-1--1--1,,1|(715,351)|
+10,40,MAJORITY WORKER CAREER LENGTH,722,610,81,26,8,131,0,0,0,0,0,0
+10,41,MAJORITY MANAGER CAREER LENGTH,1408,366,75,28,8,3,0,0,0,0,0,0
+1,42,40,36,1,0,0,0,0,64,0,-1--1--1,,1|(700,559)|
+1,43,41,21,1,0,0,0,0,64,0,-1--1--1,,1|(1308,361)|
+1,44,1,27,1,0,0,0,0,64,0,-1--1--1,,1|(505,218)|
+12,45,48,307,497,10,8,0,3,0,0,-1,0,0,0
+1,46,48,45,4,0,0,22,0,0,0,-1--1--1,,1|(307,450)|
+1,47,48,8,100,0,0,22,0,0,0,-1--1--1,,1|(307,360)|
+11,48,48,307,405,8,6,33,3,0,0,4,0,0,0
+10,49,majority worker applicants rejected,376,405,61,24,40,131,0,0,-1,0,0,0
+1,50,8,49,1,0,0,0,0,64,0,-1--1--1,,1|(365,339)|
+1,51,4,31,1,0,0,0,0,64,0,-1--1--1,,1|(885,245)|
+1,52,7,31,1,0,0,0,0,64,0,-1--1--1,,1|(878,182)|
+10,53,TIME TO PROMOTE,890,40,45,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,54,53,31,1,0,0,0,0,64,0,-1--1--1,,1|(828,182)|
+10,55,TIME TO HIRE,449,494,38,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,56,55,49,1,0,0,0,0,64,0,-1--1--1,,1|(434,449)|
+10,57,MONTHS PER YEAR,877,554,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,58,57,36,1,0,0,0,0,64,0,-1--1--1,,1|(817,514)|
+10,59,Majority Manager Applicants,1068,479,58,36,3,131,0,0,0,0,0,0
+10,60,WORKERS PER MANAGER,95,174,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,61,60,13,1,0,0,0,0,64,0,-1--1--1,,1|(87,240)|
+10,62,MONTHS PER YEAR,1459,241,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,63,62,21,1,0,0,0,0,64,0,-1--1--1,,1|(1374,307)|
+1,64,66,16,4,0,0,22,0,0,0,-1--1--1,,1|(1063,346)|
+1,65,66,59,100,0,0,22,0,0,0,-1--1--1,,1|(1063,415)|
+11,66,1116,1063,382,8,6,33,3,0,0,4,0,0,0
+10,67,majority manager applicant hiring,1126,382,55,19,40,3,0,0,-1,0,0,0
+12,68,48,1322,476,10,8,0,3,0,0,-1,0,0,0
+1,69,71,68,4,0,0,22,0,0,0,-1--1--1,,1|(1267,476)|
+1,70,71,59,100,0,0,22,0,0,0,-1--1--1,,1|(1168,476)|
+11,71,48,1216,476,6,8,34,3,0,0,1,0,0,0
+10,72,majority manager applicants rejected,1216,510,82,26,40,131,0,0,-1,0,0,0
+12,73,48,1069,645,10,8,0,3,0,0,-1,0,0,0
+1,74,76,59,4,0,0,22,0,0,0,-1--1--1,,1|(1069,543)|
+1,75,76,73,100,0,0,22,0,0,0,-1--1--1,,1|(1069,610)|
+11,76,48,1069,578,8,6,33,3,0,0,4,0,0,0
+10,77,new majority manager applicants,1138,578,61,19,40,3,0,0,-1,0,0,0
+10,78,growth in majority applicants,1317,639,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,79,WORKERS PER MANAGER,1149,688,62,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,80,79,77,1,0,0,0,0,64,0,-1--1--1,,1|(1166,647)|
+1,81,78,77,1,0,0,0,0,64,0,-1--1--1,,1|(1268,594)|
+10,82,TIME TO PROMOTE,1375,560,45,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,83,82,72,1,0,0,0,0,64,0,-1--1--1,,1|(1295,570)|
+1,84,59,72,1,0,0,0,0,64,0,-1--1--1,,1|(1132,541)|
+10,85,initial majority worker applicants,282,177,57,19,8,3,0,0,0,0,0,0
+1,86,60,85,1,0,0,0,0,64,0,-1--1--1,,1|(201,137)|
+1,87,85,8,1,0,0,0,0,64,1,-1--1--1,,1|(308,218)|
+10,88,initial majority manager applicants,939,639,61,19,8,3,0,0,0,0,0,0
+1,89,79,88,1,0,0,0,0,64,0,-1--1--1,,1|(1058,707)|
+1,90,88,59,1,0,0,0,0,64,1,-1--1--1,,1|(997,606)|
+1,91,31,67,1,0,0,0,0,64,0,-1--1--1,,1|(969,369)|
+10,92,probability of hiring majority manager from outside the organization,888,415,94,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,93,92,31,1,0,0,0,0,64,0,-1--1--1,,1|(849,368)|
+1,94,92,67,1,0,0,0,0,64,0,-1--1--1,,1|(987,433)|
+10,95,Majority Managers,766,657,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,96,95,88,1,0,0,0,0,64,0,-1--1--1,,1|(821,666)|
+10,97,Majority Workers,84,86,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,98,97,85,1,0,0,0,0,64,0,-1--1--1,,1|(159,89)|
+10,99,initial qualified majority interested,259,63,64,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,100,99,85,1,0,0,0,0,64,0,-1--1--1,,1|(282,110)|
+10,101,initial qualified majority interested,846,722,64,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,102,101,88,1,0,0,0,0,64,0,-1--1--1,,1|(927,685)|
+1,103,6,16,0,0,0,0,0,64,1,-1--1--1,,1|(1185,230)|
+1,104,5,23,0,0,0,0,0,64,1,-1--1--1,,1|(595,368)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Output
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Total Employees,570,339,53,11,8,3,0,0,0,0,0,0
+10,2,fraction of organization minority,882,342,66,19,8,3,0,0,0,0,0,0
+1,3,1,2,1,0,0,0,0,64,0,-1--1--1,,1|(668,332)|
+10,4,overall representativeness,983,228,58,19,8,3,0,0,0,0,0,0
+10,5,worker representativeness,1049,547,58,19,8,3,0,0,0,0,0,0
+1,6,2,4,1,0,0,0,0,64,0,-1--1--1,,1|(902,308)|
+10,7,fraction of population from minority,1095,341,68,19,8,3,0,0,0,0,0,0
+10,8,Minority Population,1092,195,39,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,9,Majority Population,1112,479,39,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,10,8,7,1,0,0,0,0,64,0,-1--1--1,,1|(1110,243)|
+1,11,9,7,1,0,0,0,0,64,0,-1--1--1,,1|(1120,416)|
+1,12,7,4,1,0,0,0,0,64,0,-1--1--1,,1|(1063,285)|
+1,13,7,5,1,0,0,0,0,64,0,-1--1--1,,1|(1067,398)|
+10,14,Majority Managers,472,252,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,15,14,1,1,0,0,0,0,64,0,-1--1--1,,1|(492,314)|
+10,16,Majority Workers,492,458,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,17,16,1,1,0,0,0,0,64,0,-1--1--1,,1|(511,381)|
+10,18,Minority Managers,674,244,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,19,18,1,1,0,0,0,0,64,0,-1--1--1,,1|(605,266)|
+10,20,Minority Workers,681,468,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,21,20,1,1,0,0,0,0,64,0,-1--1--1,,1|(608,412)|
+1,22,20,2,1,0,0,0,0,64,0,-1--1--1,,1|(755,442)|
+1,23,18,2,1,0,0,0,0,64,0,-1--1--1,,1|(726,246)|
+10,24,fraction of minority workers,862,507,60,19,8,3,0,0,0,0,0,0
+1,25,16,24,1,0,0,0,0,64,0,-1--1--1,,1|(601,526)|
+1,26,20,24,1,0,0,0,0,64,0,-1--1--1,,1|(729,495)|
+1,27,24,5,1,0,0,0,0,64,0,-1--1--1,,1|(905,537)|
+10,28,fraction of minority managers,940,119,60,19,8,3,0,0,0,0,0,0
+1,29,14,28,1,0,0,0,0,64,0,-1--1--1,,1|(621,123)|
+1,30,18,28,1,0,0,0,0,64,0,-1--1--1,,1|(707,187)|
+10,31,manager representativieness,1145,112,60,19,8,3,0,0,0,0,0,0
+1,32,28,31,1,0,0,0,0,64,0,-1--1--1,,1|(995,82)|
+1,33,7,31,1,0,0,0,0,64,0,-1--1--1,,1|(1203,275)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Parameters
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,MAJORITY MANAGER CAREER LENGTH,1026,277,75,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,2,MAJORITY WORKER CAREER LENGTH,1022,168,89,38,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,3,BIAS TOWARDS HIRING MAJORITY WORKER,1042,393,72,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,4,BIAS TOWARDS PROMOTING MAJORITY WORKER,1046,505,93,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,5,EFFECT OF REPRESENTATIVENESS,600,145,94,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,6,FRACTION OF MAJORITY POPULATION INTERESTED,589,256,114,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,7,FRACTION OF MAJORITY WITH NECESSARY QUALIFICATIONS,599,374,103,38,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,8,FRACTION OF MINORITY WITH NECESSARY QUALIFICATIONS,605,508,103,38,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,9,WORKERS PER MANAGER,113,354,51,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,10,INITIAL FRACTION OF MANAGERS FROM MINORITY,115,514,91,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,11,INITIAL FRACTION OF POPULATION FROM THE MINORITY,118,116,95,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,12,INITIAL FRACTION OF WORKERS FROM MINORITY,121,434,91,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,13,INITIAL POPULATION,120,45,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,14,INITIAL TOTAL EMPLOYEES,118,204,63,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,15,LONG TERM EMPLOYEES,111,273,53,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,16,MAJORITY GROWTH RATE,349,291,62,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,17,MAXIMUM MINORITY INTEREST,840,186,87,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,18,MINIMUM MINORITY INTEREST,834,83,84,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,19,MINORITY GROWTH RATE,351,107,61,30,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,20,TIME TO CHANGE MANAGER POSITIONS,1228,181,74,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,21,TIME TO CHANGE WORKER POSITIONS,1236,296,86,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,22,TIME TO HIRE,1236,399,38,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,23,TIME TO PROMOTE,1248,502,45,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,24,MAXIMUM MINORITY WORKER CAREER LENGTH,844,381,90,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,25,MINIMUM MINORITY WORKER CAREER LENGTH,843,278,87,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,26,MAXIMUM MINORITY MANAGER CAREER LENGTH,853,589,90,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,27,MINIMUM MINORITY MANAGER CAREER LENGTH,841,496,87,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+///---\\\
+:GRAPH Diversity_Levels
+:TITLE Diversity Levels
+:Y-DIV 5
+:SCALE
+:VAR fraction of minority workers
+:Y-MIN 0
+:Y-MAX 0.5
+:VAR fraction of minority managers
+:L<%^E!@
+1:Baseline.vdf
+9:Baseline
+22:$,Dollar,Dollars,$s
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+22:Day,Days
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:2,
+34:0,
+4:Time
+5:INITIAL TOTAL EMPLOYEES
+35:Date
+36:YYYY
+37:2013
+38:1
+39:1
+40:2
+41:0
+24:2017
+25:2035
+26:2035
